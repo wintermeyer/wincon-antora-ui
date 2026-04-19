@@ -1,18 +1,18 @@
 # wincon-antora-ui
 
-Shared [Antora](https://antora.org) UI bundle used by the two books
+Shared [Antora](https://antora.org) UI bundle used by the four books
 hosted under <https://wintermeyer-consulting.de>:
 
-- [elixir-phoenix-ash](https://github.com/wintermeyer/elixir-phoenix-ash)
-  — `/phoenix/book/`
-- [learn-ruby-on-rails-book](https://github.com/wintermeyer/learn-ruby-on-rails-book)
-  — `/rails/book/`
+- [rails-book](https://github.com/wintermeyer/rails-book) — `/rails/book/`
+- [phoenix-book](https://github.com/wintermeyer/phoenix-book) — `/phoenix/book/`
+- [ruby-book](https://github.com/wintermeyer/ruby-book) — `/ruby/book/`
+- [elixir-book](https://github.com/wintermeyer/elixir-book) — `/elixir/book/`
 
 The site chrome (top nav, footer) is pulled by each book's
 `scripts/fetch-partials.sh` from the canonical source in
 [`wincon/priv/static/partials/`](https://github.com/wintermeyer/wincon/tree/main/priv/static/partials)
-at build time; that step also stamps `data-book-current="rails"` or
-`data-book-current="phoenix"` so the active stack link gets
+at build time; that step also stamps `data-book-current="rails"`,
+`="phoenix"`, `="ruby"` or `="elixir"` so the active stack link gets
 highlighted by the CSS rule in this bundle.
 
 The bundle is styled with Tailwind CSS v4. Dark mode follows the OS
