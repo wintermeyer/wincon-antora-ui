@@ -1,0 +1,45 @@
+name: Publish UI bundle
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Build
+        run: npm run build
+
+      # Move the `latest` tag to the new commit and (re)create a
+      # release at that tag. Both books' playbooks point at
+      # /releases/download/latest/ui-bundle.zip, so re-uploading the
+      # asset here is what actually ships new chrome.
+      - name: Retag latest
+        run: |
+          git tag -f latest
+          git push -f origin latest
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag=false 2>/dev/null || true
+          gh release create latest \
+            build/ui-bundle.zip \
+            --title "Latest UI bundle" \
+            --notes "Tracks main; rebuilt on every push."
