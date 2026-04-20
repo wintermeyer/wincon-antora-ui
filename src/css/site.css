@@ -372,6 +372,54 @@ a[href^="mailto:"] {
   @apply bg-transparent p-0 text-inherit;
 }
 
+/* Terminal-window styling for shell / irb transcripts. AsciiDoc
+   `[source,bash]` renders as <code class="language-bash"> — the
+   marker we detect via :has() — which covers every shell,
+   console and irb transcript in the books. We draw a 32px
+   macOS-style title bar at the top of the <pre> as a ::before
+   pseudo-element: three traffic-light circles painted with
+   radial-gradients, a subtle two-stop dark gradient for the
+   bar itself, and a 1px bottom hairline to separate bar from
+   content. Adds padding-top so the first line of code clears
+   the bar. Purely CSS, no HTML change. */
+.doc pre:has(> code.language-bash) {
+  position: relative;
+  padding-top: calc(32px + var(--spacing) * 4);
+}
+
+@media (min-width: 640px) {
+  .doc pre:has(> code.language-bash) {
+    padding-top: calc(32px + var(--spacing) * 5);
+  }
+}
+
+.doc pre:has(> code.language-bash)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
+  background:
+    radial-gradient(circle at 16px 16px, #ff5f56 5.5px, transparent 6.5px),
+    radial-gradient(circle at 36px 16px, #ffbd2e 5.5px, transparent 6.5px),
+    radial-gradient(circle at 56px 16px, #27c93f 5.5px, transparent 6.5px),
+    linear-gradient(180deg, rgb(45 45 45), rgb(30 30 30));
+  box-shadow: inset 0 -1px 0 rgb(60 60 60);
+  pointer-events: none;
+}
+
+/* The tiny "BASH" language chip in the corner is redundant
+   once the terminal window itself flags the block as a shell
+   transcript. Hide it for bash blocks only; other languages
+   still benefit from the chip as a format cue. The copy
+   button in the same toolbox stays visible and clickable. */
+.doc .listingblock:has(pre > code.language-bash) .source-lang {
+  display: none;
+}
+
 .doc .listingblock,
 .doc .literalblock {
   @apply relative my-6;
