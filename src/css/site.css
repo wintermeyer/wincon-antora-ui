@@ -368,6 +368,24 @@ a[href^="mailto:"] {
   @apply my-6 overflow-x-auto rounded-sm bg-neutral-900 p-4 font-mono text-[13px] leading-[1.6] text-neutral-100 ring-1 ring-neutral-200 sm:p-5 sm:text-[14px] dark:bg-[#131313] dark:ring-neutral-800;
 }
 
+/* Inside a listing/literal block, the parent already provides
+   the outer vertical spacing (listingblock has my-6). Zeroing
+   the pre's own vertical margin closes the visual gap between
+   a file-tab title and the code area it labels — they now
+   sit flush, so the tab reads as attached to the top of the
+   code pane instead of floating above it. Also flatten the
+   top corners of the pre when a title tab is sitting on top,
+   so tab and pre merge into one rectangle. */
+.doc .listingblock > .content > pre,
+.doc .literalblock > .content > pre {
+  @apply my-0;
+}
+
+.doc .listingblock:has(> .title) > .content > pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 .doc pre code {
   @apply bg-transparent p-0 text-inherit;
 }
@@ -411,11 +429,16 @@ a[href^="mailto:"] {
   pointer-events: none;
 }
 
-/* The tiny "BASH" language chip in the corner is redundant
-   once the terminal window itself flags the block as a shell
-   transcript. Hide it for bash blocks only; other languages
-   still benefit from the chip as a format cue. The copy
-   button in the same toolbox stays visible and clickable. */
+/* The language chip in the corner is redundant when the block
+   already identifies itself. Hide it in two cases:
+   (a) a file-title tab is present — the filename extension
+       ("room.rb", ".erb", etc.) already tells the reader the
+       language.
+   (b) it's a bash block — the terminal window chrome already
+       flags it as a shell transcript.
+   The copy button in the same toolbox stays visible and
+   clickable in both cases. */
+.doc .listingblock:has(> .title) .source-lang,
 .doc .listingblock:has(pre > code.language-bash) .source-lang {
   display: none;
 }
@@ -462,8 +485,20 @@ a[href^="mailto:"] {
   opacity: 0.75;
 }
 
+/* source-toolbox (language chip + copy button) is appended by
+   site.js as a sibling of the <pre>, inside .content. Anchor
+   it to the top-right of .content (i.e. top-right of the
+   code area) rather than the outer listingblock. Result: the
+   copy button lives inside the code area top-right for file
+   blocks, and inside the terminal title bar for bash blocks —
+   always flush with the code pane, never floating above it. */
+.doc .listingblock > .content,
+.doc .literalblock > .content {
+  position: relative;
+}
+
 .doc .source-toolbox {
-  @apply absolute top-2 right-2 flex items-center gap-2 text-[11px] text-neutral-400;
+  @apply absolute top-1.5 right-1.5 z-10 flex items-center gap-2 text-[11px] text-neutral-400;
 }
 
 .doc .source-lang {
