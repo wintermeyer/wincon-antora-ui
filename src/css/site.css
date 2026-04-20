@@ -377,11 +377,41 @@ a[href^="mailto:"] {
   @apply relative my-6;
 }
 
-.doc .listingblock > .title,
+/* Non-code block titles keep the quiet mono caption treatment. */
 .doc .imageblock > .title,
 .doc .tableblock > caption {
   @apply mb-2 font-mono text-[11px] tracking-[0.15em] text-neutral-500 uppercase dark:text-neutral-400;
   overflow-wrap: anywhere;
+}
+
+/* Code-block filename label — rendered as a file-tab attached
+   to the top of the code block. Distinct from the small mono
+   "RUBY" / "BASH" language chip in the top-right corner, so
+   readers can tell at a glance that a block represents a file
+   on disk (.room.rb) vs a transcript (shell, irb). Preserves
+   the original case (room.rb, not ROOM.RB). The small document
+   glyph before the filename reinforces the "this is a file"
+   read without resorting to emoji. */
+.doc .listingblock > .title {
+  @apply mb-0 inline-flex items-center gap-1.5 rounded-t-sm bg-neutral-200 px-3 py-1 font-mono text-[12px] font-medium text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200;
+  overflow-wrap: anywhere;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.doc .listingblock > .title::before {
+  content: "";
+  @apply inline-block h-[13px] w-[13px] shrink-0;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='black'><path d='M3.5 1.5h5.793a1 1 0 0 1 .707.293l3.207 3.207a1 1 0 0 1 .293.707V14a.5.5 0 0 1-.5.5h-9.5a.5.5 0 0 1-.5-.5V2a.5.5 0 0 1 .5-.5zm5.5.707V5.5h3.293L9 2.207z'/></svg>");
+          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='black'><path d='M3.5 1.5h5.793a1 1 0 0 1 .707.293l3.207 3.207a1 1 0 0 1 .293.707V14a.5.5 0 0 1-.5.5h-9.5a.5.5 0 0 1-.5-.5V2a.5.5 0 0 1 .5-.5zm5.5.707V5.5h3.293L9 2.207z'/></svg>");
+  -webkit-mask-size: contain;
+          mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+          mask-position: center;
+  opacity: 0.75;
 }
 
 .doc .source-toolbox {
