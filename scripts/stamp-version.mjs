@@ -22,6 +22,7 @@ function hashOf(path) {
 
 const cssHash = hashOf('build/bundle/css/site.css')
 const jsHash = hashOf('build/bundle/js/site.js')
+const terminalDetectHash = hashOf('build/bundle/js/terminal-detect.js')
 
 function stamp(partial, assetPath, hash) {
   const file = `build/bundle/partials/${partial}`
@@ -35,5 +36,6 @@ function stamp(partial, assetPath, hash) {
 
 stamp('head-styles.hbs', 'css/site.css', cssHash)
 stamp('footer-scripts.hbs', 'js/site.js', jsHash)
+stamp('footer-scripts.hbs', 'js/terminal-detect.js', terminalDetectHash)
 
-console.log(`stamped css?v=${cssHash}  js?v=${jsHash}`)
+console.log(`stamped css?v=${cssHash}  js?v=${jsHash}  terminal-detect?v=${terminalDetectHash}`)

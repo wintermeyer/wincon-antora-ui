@@ -400,18 +400,18 @@ a[href^="mailto:"] {
    bar itself, and a 1px bottom hairline to separate bar from
    content. Adds padding-top so the first line of code clears
    the bar. Purely CSS, no HTML change. */
-.doc pre:has(> code.language-bash) {
+.doc pre.is-terminal {
   position: relative;
   padding-top: calc(32px + var(--spacing) * 4);
 }
 
 @media (min-width: 640px) {
-  .doc pre:has(> code.language-bash) {
+  .doc pre.is-terminal {
     padding-top: calc(32px + var(--spacing) * 5);
   }
 }
 
-.doc pre:has(> code.language-bash)::before {
+.doc pre.is-terminal::before {
   content: "";
   position: absolute;
   top: 0;
@@ -449,7 +449,7 @@ a[href^="mailto:"] {
    The copy button in the same toolbox stays visible and
    clickable in both cases. */
 .doc .listingblock:has(> .title) .source-lang,
-.doc .listingblock:has(pre > code.language-bash) .source-lang {
+.doc .listingblock:has(pre.is-terminal) .source-lang {
   display: none;
 }
 
