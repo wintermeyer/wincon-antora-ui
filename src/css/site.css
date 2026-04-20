@@ -492,22 +492,6 @@ a[href^="mailto:"] {
   @apply pr-3;
 }
 
-/* ---------------------------------------------------------------------------
-   Article footer — Edit this Page link sits at the very end of the
-   article, muted and unobtrusive.
---------------------------------------------------------------------------- */
-
-.article-footer {
-  @apply mt-16 border-t border-neutral-200 pt-6 dark:border-neutral-800;
-}
-
-.edit-this-page {
-  @apply font-mono text-[11px] tracking-[0.15em] uppercase;
-}
-
-.edit-this-page a {
-  @apply text-neutral-500 no-underline hover:text-[#65a30d] dark:text-neutral-400 dark:hover:text-[#c8f55a];
-}
 
 /* ---------------------------------------------------------------------------
    Pagination (prev/next at the bottom of each page).
