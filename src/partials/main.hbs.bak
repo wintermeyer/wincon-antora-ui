@@ -3,7 +3,7 @@
 {{#if (eq page.layout '404')}}
 {{> article-404}}
 {{else}}
-{{#unless (eq page.attributes.notoc 'true')}}
+{{#unless (eq (lookup page.attributes 'page-notoc') 'true')}}
 {{> toc}}
 {{/unless}}
 {{> article}}
