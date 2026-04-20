@@ -390,28 +390,31 @@ a[href^="mailto:"] {
   @apply bg-transparent p-0 text-inherit;
 }
 
-/* Terminal-window styling for shell / irb transcripts. AsciiDoc
-   `[source,bash]` renders as <code class="language-bash"> — the
-   marker we detect via :has() — which covers every shell,
-   console and irb transcript in the books. We draw a 32px
-   macOS-style title bar at the top of the <pre> as a ::before
-   pseudo-element: three traffic-light circles painted with
-   radial-gradients, a subtle two-stop dark gradient for the
-   bar itself, and a 1px bottom hairline to separate bar from
-   content. Adds padding-top so the first line of code clears
-   the bar. Purely CSS, no HTML change. */
-.doc pre.is-terminal {
+/* Terminal-window styling for shell / REPL transcripts. An
+   Asciidoctor tree-processor extension (see each book's
+   ./asciidoctor-extensions/terminal-role.js) tags listing and
+   literal blocks with a `terminal` role when their source
+   starts with a known prompt (iex>, irb>, >>, $, user@host:).
+   The role lands in the HTML as a class on the listingblock,
+   so the class is baked into the static HTML — no runtime
+   JS needed. Here we draw the 32px macOS-style title bar as
+   a ::before pseudo-element on the pre: three traffic-light
+   circles painted with radial-gradients, a three-stop dark
+   gradient for the bar, a 1px top inner highlight and a 1px
+   bottom inner hairline for depth. Padding-top gets the
+   first line of code clear of the bar. */
+.doc .listingblock.terminal > .content > pre {
   position: relative;
   padding-top: calc(32px + var(--spacing) * 4);
 }
 
 @media (min-width: 640px) {
-  .doc pre.is-terminal {
+  .doc .listingblock.terminal > .content > pre {
     padding-top: calc(32px + var(--spacing) * 5);
   }
 }
 
-.doc pre.is-terminal::before {
+.doc .listingblock.terminal > .content > pre::before {
   content: "";
   position: absolute;
   top: 0;
@@ -449,7 +452,7 @@ a[href^="mailto:"] {
    The copy button in the same toolbox stays visible and
    clickable in both cases. */
 .doc .listingblock:has(> .title) .source-lang,
-.doc .listingblock:has(pre.is-terminal) .source-lang {
+.doc .listingblock.terminal .source-lang {
   display: none;
 }
 
