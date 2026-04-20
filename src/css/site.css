@@ -304,6 +304,26 @@ a[href^="mailto:"] {
   @apply my-6 border-l-2 border-neutral-300 pl-5 font-serif text-[17px] italic text-neutral-600 dark:border-neutral-700 dark:text-neutral-400;
 }
 
+/* AsciiDoc wraps a quote plus its attribution in .quoteblock. Give
+   the whole block breathing room top and bottom, zero the inner
+   blockquote's own margins (so we don't double-space), and style
+   the attribution as a muted, non-italic aside beneath the quote. */
+.doc .quoteblock {
+  @apply my-8;
+}
+
+.doc .quoteblock > blockquote {
+  @apply my-0;
+}
+
+.doc .quoteblock .attribution {
+  @apply mt-3 pl-5 font-mono text-[13px] tracking-wide text-neutral-500 dark:text-neutral-400;
+}
+
+.doc .quoteblock .attribution cite {
+  @apply not-italic;
+}
+
 /* Tables */
 .doc table {
   @apply my-6 w-full border-collapse text-[15px];
